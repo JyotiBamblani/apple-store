@@ -106,7 +106,7 @@
   @apply flex-shrink-0 flex items-center justify-center;
   width: 60px;
   height: 30px;
-  background: theme('colors.surface-alt');
+  background: transparent;
   border-radius: theme('borderRadius.sm');
 
   @media (min-width: 640px) {
@@ -230,7 +230,7 @@
   }
 
   .sponsor-logo {
-    background: #111113;
+    background: transparent;
     border-color: rgba(255, 255, 255, 0.1);
   }
 

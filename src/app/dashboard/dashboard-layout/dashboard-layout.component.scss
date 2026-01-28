@@ -141,7 +141,9 @@
 }
 
 .dashboard-main {
-  @apply flex-1 p-4 overflow-auto;
+  @apply flex-1 p-4;
+  overflow-y: auto;
+  overflow-x: hidden;
   order: 2;
 
   @media (min-width: 640px) {

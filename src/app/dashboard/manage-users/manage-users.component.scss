@@ -30,6 +30,13 @@
   }
 }
 
+/* Dark mode overrides */
+::host-context(.dark) {
+  .page-title {
+    color: theme('colors.white');
+  }
+}
+
 .users-header {
   @apply mb-4 flex justify-end;
 }
