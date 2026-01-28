@@ -25,5 +25,12 @@
     -moz-osx-font-smoothing: grayscale;
     color: theme('colors.text-primary');
     background: theme('colors.surface');
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  /* Dark mode base styles (html.dark is set by ThemeService) */
+  html.dark body {
+    color: rgba(255, 255, 255, 0.9);
+    background: #111113;
   }
 }

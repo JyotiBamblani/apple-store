@@ -5,7 +5,7 @@
         <th>Name</th>
         <th>Email</th>
         <th>Items Purchased</th>
-        <th></th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -15,7 +15,10 @@
           <td>{{ user.email }}</td>
           <td>{{ user.itemsPurchased }}</td>
           <td>
-            <button type="button" class="btn-edit" (click)="onEdit(user)">Edit</button>
+            <div class="action-buttons">
+              <button type="button" class="btn-edit" (click)="onEdit(user)">Edit</button>
+              <button type="button" class="btn-edit btn-delete" (click)="onDelete(user)">Delete</button>
+            </div>
           </td>
         </tr>
       }

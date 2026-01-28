@@ -10,6 +10,7 @@
   font-size: 12px;
   font-weight: 400;
   letter-spacing: -0.01em;
+  transition: background-color 0.3s, border-color 0.3s;
 
   @media (min-width: 640px) {
     padding: 0 20px;
@@ -21,6 +22,12 @@
 
   @media (min-width: 1440px) {
     padding: 0 44px;
+  }
+
+  /* Dark mode styles */
+  :host-context(.dark) & {
+    background: rgba(17, 17, 19, 0.8);
+    border-bottom-color: rgba(255, 255, 255, 0.1);
   }
 }
 
@@ -35,6 +42,11 @@
 
   span {
     @apply font-semibold;
+  }
+
+  /* Dark mode styles */
+  :host-context(.dark) & {
+    color: rgba(255, 255, 255, 0.9);
   }
 }
 
@@ -76,5 +88,55 @@
   &:hover {
     @apply bg-black/5;
     color: theme('colors.text-primary');
+  }
+
+  /* Dark mode styles */
+  :host-context(.dark) & {
+    color: rgba(255, 255, 255, 0.9);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 1);
+    }
+  }
+}
+
+.theme-toggle {
+  @apply flex items-center justify-center rounded-full transition-all cursor-pointer border-0 bg-transparent;
+  padding: 8px;
+  color: theme('colors.text-primary');
+  margin-left: 4px;
+
+  @media (min-width: 640px) {
+    padding: 8px 10px;
+    margin-left: 8px;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 8px 12px;
+    margin-left: 12px;
+  }
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  svg {
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  /* Dark mode styles */
+  :host-context(.dark) & {
+    color: rgba(255, 255, 255, 0.9);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 1);
+    }
   }
 }

@@ -78,3 +78,10 @@
     grid-template-columns: repeat(4, 1fr);
   }
 }
+
+/* Dark mode overrides */
+:host-context(.dark) {
+  .section-title {
+    color: rgba(255, 255, 255, 0.95);
+  }
+}

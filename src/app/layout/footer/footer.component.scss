@@ -122,3 +122,36 @@
     font-size: 12px;
   }
 }
+
+/* Dark mode overrides */
+:host-context(.dark) {
+  .footer {
+    background: #18181b;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .footer-links {
+    border-bottom-color: rgba(255, 255, 255, 0.12);
+  }
+
+  .footer-link {
+    color: rgba(255, 255, 255, 0.8);
+
+    &:hover {
+      color: rgba(255, 255, 255, 1);
+      text-decoration-color: rgba(255, 255, 255, 1);
+    }
+  }
+
+  .company-name {
+    color: rgba(255, 255, 255, 0.95);
+  }
+
+  .company-details {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .env-badge {
+    color: rgba(129, 212, 250, 0.95);
+  }
+}

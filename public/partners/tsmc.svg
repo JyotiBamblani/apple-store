@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="60" viewBox="0 0 160 60">
+  <rect width="160" height="60" rx="8" fill="#b00000"/>
+  <text x="50%" y="50%" fill="#ffffff" font-family="-apple-system,BlinkMacSystemFont,'SF Pro Text',system-ui,sans-serif"
+        font-size="18" font-weight="600" text-anchor="middle" dominant-baseline="central">
+    TSMC
+  </text>
+</svg>
+

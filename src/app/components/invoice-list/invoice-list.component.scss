@@ -176,3 +176,26 @@
     font-size: 1rem;
   }
 }
+
+/* Dark mode overrides: same style as user-table */
+:host-context(.dark) {
+  .data-table {
+    th,
+    td {
+      color: theme('colors.white');
+      background-color: #111113;
+    }
+
+    th {
+      background-color: #18181b;
+    }
+
+    tbody tr:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+  }
+
+  .pagination-info {
+    color: theme('colors.white');
+  }
+}

@@ -1,9 +1,46 @@
-<div class="dashboard">
+<div class="dashboard" [class.sidebar-open]="sidebarOpen()">
+  <!-- Mobile toggle button -->
+  <button
+    type="button"
+    class="sidebar-toggle"
+    (click)="toggleSidebar()"
+    aria-label="Toggle sidebar navigation"
+  >
+    ☰
+  </button>
+
+  <!-- Sidebar overlay (mobile) -->
+  @if (sidebarOpen()) {
+    <div class="sidebar-overlay" (click)="closeSidebar()"></div>
+  }
+
   <aside class="sidebar">
     <nav class="sidebar-nav">
-      <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="sidebar-link">Dashboard</a>
-      <a routerLink="/dashboard/users" routerLinkActive="active" class="sidebar-link">Users</a>
-      <a routerLink="/dashboard/billing" routerLinkActive="active" class="sidebar-link">Billing</a>
+      <a
+        routerLink="/dashboard"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="sidebar-link"
+        (click)="closeSidebar()"
+      >
+        Dashboard
+      </a>
+      <a
+        routerLink="/dashboard/users"
+        routerLinkActive="active"
+        class="sidebar-link"
+        (click)="closeSidebar()"
+      >
+        Users
+      </a>
+      <a
+        routerLink="/dashboard/billing"
+        routerLinkActive="active"
+        class="sidebar-link"
+        (click)="closeSidebar()"
+      >
+        Billing
+      </a>
     </nav>
   </aside>
   <main class="dashboard-main">

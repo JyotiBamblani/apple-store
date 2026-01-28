@@ -2,17 +2,34 @@
 .dashboard {
   @apply flex flex-col;
   min-height: calc(100vh - 44px);
+  position: relative;
+  overflow-x: hidden; /* Prevent sideways scroll on small screens when sidebar is open */
 
   @media (min-width: 1024px) {
     @apply flex-row;
   }
 }
 
+/* Sidebar toggle (used previously for slide-in mobile). 
+ * For a simple block layout on mobile, keep it hidden. */
+.sidebar-toggle {
+  display: none;
+}
+
+.sidebar-overlay {
+  display: none; /* No overlay needed for block layout */
+}
+
 .sidebar {
   @apply flex-shrink-0 py-4 px-4;
   background: theme('colors.surface-alt');
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  order: 2;
+  order: 1;
+  z-index: 1;
+
+  /* Mobile: simple block layout (sidebar on top, content below) */
+  position: static;
+  width: 100%;
 
   @media (min-width: 640px) {
     padding: 20px 24px;
@@ -23,7 +40,6 @@
     padding: 24px 0;
     border-bottom: none;
     border-right: 1px solid rgba(0, 0, 0, 0.08);
-    order: 1;
   }
 
   @media (min-width: 1440px) {
@@ -87,9 +103,46 @@
   }
 }
 
+/* Dark mode overrides */
+:host-context(.dark) {
+  .sidebar-toggle {
+    background: #18181b;
+    color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+  }
+
+  .sidebar {
+    background: #18181b;
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+
+    @media (min-width: 1024px) {
+      border-right-color: rgba(255, 255, 255, 0.08);
+    }
+  }
+
+  .sidebar-link {
+    color: rgba(255, 255, 255, 0.85);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    &.active {
+      background: rgba(0, 113, 227, 0.35);
+      color: rgba(255, 255, 255, 0.95);
+      border-bottom-color: rgba(0, 113, 227, 0.9);
+
+      @media (min-width: 1024px) {
+        border-left-color: rgba(0, 113, 227, 0.9);
+        border-bottom-color: transparent;
+      }
+    }
+  }
+}
+
 .dashboard-main {
   @apply flex-1 p-4 overflow-auto;
-  order: 1;
+  order: 2;
 
   @media (min-width: 640px) {
     padding: 20px;

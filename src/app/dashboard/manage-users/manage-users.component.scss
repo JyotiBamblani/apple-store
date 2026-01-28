@@ -30,6 +30,10 @@
   }
 }
 
+.users-header {
+  @apply mb-4 flex justify-end;
+}
+
 .error-banner {
   @apply mb-4 p-3 rounded-lg;
   background: rgba(201, 52, 0, 0.1);

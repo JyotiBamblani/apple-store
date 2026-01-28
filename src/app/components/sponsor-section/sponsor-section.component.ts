@@ -15,11 +15,11 @@ export interface Sponsor {
 })
 export class SponsorSectionComponent {
   sponsors: Sponsor[] = [
-    { name: 'Samsung', tagline: 'Display & Memory Partner', logo: 'https://via.placeholder.com/120x60?text=Samsung' },
-    { name: 'Foxconn', tagline: 'Manufacturing Partner', logo: 'https://via.placeholder.com/120x60?text=Foxconn' },
-    { name: 'TSMC', tagline: 'Chip Fabrication', logo: 'https://via.placeholder.com/120x60?text=TSMC' },
-    { name: 'Corning', tagline: 'Glass Technology', logo: 'https://via.placeholder.com/120x60?text=Corning' },
-    { name: 'Sony', tagline: 'Camera Sensors', logo: 'https://via.placeholder.com/120x60?text=Sony' },
-    { name: 'LG Display', tagline: 'Display Panels', logo: 'https://via.placeholder.com/120x60?text=LG+Display' }
+    { name: 'Samsung', tagline: 'Display & Memory Partner', logo: 'partners/samsung.svg' },
+    { name: 'Foxconn', tagline: 'Manufacturing Partner', logo: 'partners/foxconn.svg' },
+    { name: 'TSMC', tagline: 'Chip Fabrication', logo: 'partners/tsmc.svg' },
+    { name: 'Corning', tagline: 'Glass Technology', logo: 'partners/corning.svg' },
+    { name: 'Sony', tagline: 'Camera Sensors', logo: 'partners/sony.svg' },
+    { name: 'LG Display', tagline: 'Display Panels', logo: 'partners/lg-display.svg' }
   ];
 }

@@ -404,3 +404,52 @@
     font-size: 1rem;
   }
 }
+
+/* Dark mode overrides: invert light/dark for billing page */
+:host-context(.dark) {
+  .page-title,
+  .section-heading {
+    color: theme('colors.white');
+  }
+
+  .section-desc,
+  .trending-count,
+  .empty-msg {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .trending-chart-wrap,
+  .trending-card {
+    background: #111113;
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .trending-rank {
+    color: theme('colors.white');
+    background: rgba(0, 113, 227, 0.3);
+  }
+
+  .trending-name {
+    color: theme('colors.white');
+  }
+
+  .invoices-table {
+    th,
+    td {
+      color: theme('colors.white');
+      background-color: #111113;
+    }
+
+    th {
+      background-color: #18181b;
+    }
+
+    tbody tr:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+  }
+
+  .pagination-info {
+    color: theme('colors.white');
+  }
+}

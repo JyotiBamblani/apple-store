@@ -11,6 +11,10 @@
     </div>
   }
 
+  <div class="users-header">
+    <button type="button" class="btn btn-primary" (click)="openCreate()">Add User</button>
+  </div>
+
   <app-user-table
     [users]="paginatedUsers()"
     [currentPage]="currentPage()"
@@ -18,18 +22,22 @@
     [canGoPrevious]="canGoPrevious()"
     [canGoNext]="canGoNext()"
     (editUser)="openEdit($event)"
+    (deleteUser)="onDelete($event)"
     (previousPage)="previousPage()"
     (nextPage)="nextPage()"
   />
 </div>
 
-@if (editPopupVisible() && editingUser) {
+@if (editPopupVisible()) {
   <div class="popup-backdrop" (click)="onBackdropClick($event)">
     <div class="popup popup-edit" role="dialog" aria-labelledby="edit-user-title">
-      <h2 id="edit-user-title" class="popup-title">Edit User</h2>
+      <h2 id="edit-user-title" class="popup-title">
+        {{ isCreateMode() ? 'Add User' : 'Edit User' }}
+      </h2>
 
       @if (editError()) {
         <div class="error-message" role="alert">
+          <span class="error-icon">⚠️</span>
           {{ editError() }}
         </div>
       }
@@ -39,16 +47,27 @@
         <input id="edit-name" type="text" [(ngModel)]="editName" class="input" placeholder="Full name" required />
       </div>
       <div class="form-group">
-        <label for="edit-email">Email</label>
-        <input
-          id="edit-email"
-          type="text"
-          [value]="editingUser.email"
-          class="input input-readonly"
-          readonly
-          aria-readonly="true"
-        />
-        <p class="field-hint">Email cannot be changed (unique key).</p>
+        <label for="edit-email">Email <span class="required">*</span></label>
+        @if (isCreateMode()) {
+          <input
+            id="edit-email"
+            type="email"
+            [(ngModel)]="editEmail"
+            class="input"
+            placeholder="user@example.com"
+            required
+          />
+        } @else {
+          <input
+            id="edit-email"
+            type="text"
+            [value]="editingUser ? editingUser.email : ''"
+            class="input input-readonly"
+            readonly
+            aria-readonly="true"
+          />
+          <p class="field-hint">Email cannot be changed (unique key).</p>
+        }
       </div>
       <div class="form-group">
         <label for="edit-items">Items Purchased</label>

@@ -16,10 +16,15 @@ export class UserTableComponent {
   @Input() canGoPrevious = false;
   @Input() canGoNext = false;
   @Output() editUser = new EventEmitter<User>();
+  @Output() deleteUser = new EventEmitter<User>();
   @Output() previousPage = new EventEmitter<void>();
   @Output() nextPage = new EventEmitter<void>();
 
   onEdit(user: User): void {
     this.editUser.emit(user);
+  }
+
+  onDelete(user: User): void {
+    this.deleteUser.emit(user);
   }
 }

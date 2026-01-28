@@ -74,6 +74,15 @@
   }
 }
 
+.action-buttons {
+  @apply flex items-center gap-2;
+  flex-wrap: wrap;
+
+  @media (min-width: 640px) {
+    gap: 8px;
+  }
+}
+
 .btn-edit {
   @apply px-2.5 py-1 text-xs font-medium bg-transparent border rounded-full cursor-pointer transition-colors;
   color: theme('colors.primary');
@@ -89,6 +98,15 @@
 
   &:hover {
     background: rgba(0, 113, 227, 0.08);
+  }
+
+  &.btn-delete {
+    color: theme('colors.warning');
+    border-color: theme('colors.warning');
+
+    &:hover {
+      background: rgba(201, 52, 0, 0.08);
+    }
   }
 }
 
@@ -138,5 +156,28 @@
 
   @media (min-width: 1440px) {
     font-size: 1rem;
+  }
+}
+
+/* Dark mode overrides: invert light/dark for table */
+:host-context(.dark) {
+  .data-table {
+    th,
+    td {
+      color: theme('colors.white');
+      background-color: #111113;
+    }
+
+    th {
+      background-color: #18181b;
+    }
+
+    tbody tr:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+  }
+
+  .pagination-info {
+    color: theme('colors.white');
   }
 }

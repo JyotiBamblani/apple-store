@@ -217,3 +217,32 @@
     flex: 0 0 calc(25% - 18px);
   }
 }
+
+/* Dark mode overrides */
+:host-context(.dark) {
+  .sponsors {
+    background: #111113;
+  }
+
+  .sponsor-card {
+    background: #18181b;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  }
+
+  .sponsor-logo {
+    background: #111113;
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .section-title {
+    color: rgba(255, 255, 255, 0.95);
+  }
+
+  .sponsor-name {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .sponsor-tagline {
+    color: rgba(255, 255, 255, 0.7);
+  }
+}

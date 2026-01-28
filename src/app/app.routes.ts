@@ -12,6 +12,7 @@ export const routes: Routes = [
     path: 'dashboard',
     component: DashboardLayoutComponent,
     children: [
+      // Default dashboard view: trending products only
       { path: '', component: DashboardHomeComponent },
       { path: 'users', component: ManageUsersComponent },
       { path: 'billing', component: BillingComponent }

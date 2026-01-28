@@ -332,6 +332,98 @@ export class StoreService {
   }
 
   /**
+   * Create a new user with validation and error handling.
+   */
+  createUser(params: { name: string; email: string; itemsPurchased?: number }): StoreResult<User> {
+    const nameTrim = params.name?.trim() || '';
+    const emailTrim = params.email?.trim() || '';
+
+    if (!nameTrim) {
+      const error = createError('User name is required', StoreErrorCode.VALIDATION_ERROR);
+      this.errorSignal.set(error.error);
+      return error;
+    }
+
+    if (!emailTrim) {
+      const error = createError('User email is required', StoreErrorCode.VALIDATION_ERROR);
+      this.errorSignal.set(error.error);
+      return error;
+    }
+
+    if (!validateEmail(emailTrim)) {
+      const error = createError('User email must be a valid email address', StoreErrorCode.VALIDATION_ERROR);
+      this.errorSignal.set(error.error);
+      return error;
+    }
+
+    const list = this.usersSignal();
+    const duplicate = list.find((u) => u.email.toLowerCase() === emailTrim.toLowerCase());
+    if (duplicate) {
+      const error = createError('User with this email already exists', StoreErrorCode.DUPLICATE_EMAIL);
+      this.errorSignal.set(error.error);
+      return error;
+    }
+
+    const items = Math.max(0, Math.floor(Number(params.itemsPurchased ?? 0)) || 0);
+    const newUser: User = {
+      id: `user-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      name: nameTrim,
+      email: emailTrim,
+      itemsPurchased: items
+    };
+
+    const validation = validateUser(newUser);
+    if (!validation.valid) {
+      const error = createError(validation.error || 'Invalid user data', StoreErrorCode.VALIDATION_ERROR);
+      this.errorSignal.set(error.error);
+      return error;
+    }
+
+    this.usersSignal.update((prev) => {
+      const next = [...prev, newUser];
+      const persistResult = this.persistUsers(next);
+      if (!persistResult.success) {
+        return prev;
+      }
+      return next;
+    });
+
+    this.errorSignal.set(null);
+    return createSuccess(newUser);
+  }
+
+  /**
+   * Delete a user by id with validation and error handling.
+   */
+  deleteUser(id: string): StoreResult<void> {
+    if (!id || typeof id !== 'string' || !id.trim()) {
+      const error = createError('User ID is required', StoreErrorCode.VALIDATION_ERROR);
+      this.errorSignal.set(error.error);
+      return error;
+    }
+
+    const list = this.usersSignal();
+    const index = list.findIndex((u) => u.id === id);
+    if (index === -1) {
+      const error = createError(`User with ID "${id}" not found`, StoreErrorCode.NOT_FOUND);
+      this.errorSignal.set(error.error);
+      return error;
+    }
+
+    this.usersSignal.update((prev) => {
+      const next = prev.filter((u) => u.id !== id);
+      const persistResult = this.persistUsers(next);
+      if (!persistResult.success) {
+        return prev;
+      }
+      return next;
+    });
+
+    this.errorSignal.set(null);
+    return createSuccess(undefined);
+  }
+
+  /**
    * Record a purchase: adds an invoice and updates existing user (by email)
    * or creates a new user. Includes comprehensive validation.
    * @param params - Purchase parameters

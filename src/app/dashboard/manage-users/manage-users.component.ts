@@ -21,8 +21,10 @@ export class ManageUsersComponent {
   currentPage = signal(1);
   pageSize = PAGE_SIZE;
   editPopupVisible = signal(false);
+  isCreateMode = signal(false);
   editingUser: User | null = null;
   editName = '';
+  editEmail = '';
   editItemsPurchased = 0;
   editError = signal<string | null>(null);
 
@@ -46,9 +48,22 @@ export class ManageUsersComponent {
 
   /** Open edit popup with user data (email is non-editable) */
   openEdit(user: User): void {
+    this.isCreateMode.set(false);
     this.editingUser = { ...user };
     this.editName = user.name;
+    this.editEmail = user.email;
     this.editItemsPurchased = user.itemsPurchased;
+    this.editPopupVisible.set(true);
+    this.editError.set(null);
+  }
+
+  /** Open create user popup */
+  openCreate(): void {
+    this.isCreateMode.set(true);
+    this.editingUser = null;
+    this.editName = '';
+    this.editEmail = '';
+    this.editItemsPurchased = 0;
     this.editPopupVisible.set(true);
     this.editError.set(null);
   }
@@ -59,10 +74,8 @@ export class ManageUsersComponent {
     this.editError.set(null);
   }
 
-  /** Save edited name and items purchased to StoreService (persists to localStorage) */
+  /** Save user (create or update) via StoreService (persists to localStorage) */
   saveEdit(): void {
-    if (!this.editingUser) return;
-    
     this.editError.set(null);
     
     const nameTrim = this.editName.trim();
@@ -77,16 +90,57 @@ export class ManageUsersComponent {
       return;
     }
 
-    const result = this.store.updateUser(this.editingUser.id, {
-      name: nameTrim,
-      itemsPurchased: items
-    });
+    if (this.isCreateMode()) {
+      const emailTrim = this.editEmail.trim();
+      if (!emailTrim) {
+        this.editError.set('Email is required');
+        return;
+      }
 
-    if (!result.success) {
-      this.editError.set(result.error);
-      console.error('Update failed:', result.error);
+      const result = this.store.createUser({
+        name: nameTrim,
+        email: emailTrim,
+        itemsPurchased: items
+      });
+
+      if (!result.success) {
+        this.editError.set(result.error);
+        console.error('Create user failed:', result.error);
+      } else {
+        this.closeEdit();
+      }
     } else {
-      this.closeEdit();
+      if (!this.editingUser) return;
+
+      const result = this.store.updateUser(this.editingUser.id, {
+        name: nameTrim,
+        itemsPurchased: items
+      });
+
+      if (!result.success) {
+        this.editError.set(result.error);
+        console.error('Update failed:', result.error);
+      } else {
+        this.closeEdit();
+      }
+    }
+  }
+
+  /** Delete a user (with confirmation) */
+  onDelete(user: User): void {
+    const confirmed = window.confirm(`Delete user "${user.name}" (${user.email})?`);
+    if (!confirmed) return;
+
+    const result = this.store.deleteUser(user.id);
+    if (!result.success) {
+      console.error('Delete user failed:', result.error);
+      return;
+    }
+
+    // Adjust current page if necessary after deletion
+    const total = this.totalPages();
+    if (this.currentPage() > total) {
+      this.currentPage.set(total);
     }
   }
 
