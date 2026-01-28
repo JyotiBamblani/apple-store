@@ -1,5 +1,16 @@
 <div class="users-page">
   <h1 class="page-title">Users</h1>
+
+  @if (storeError()) {
+    <div class="error-banner" role="alert">
+      <div class="error-content">
+        <span class="error-icon">⚠️</span>
+        <span class="error-message">{{ storeError() }}</span>
+        <button type="button" class="error-close" (click)="clearStoreError()" aria-label="Close error">×</button>
+      </div>
+    </div>
+  }
+
   <app-user-table
     [users]="paginatedUsers()"
     [currentPage]="currentPage()"
@@ -16,9 +27,16 @@
   <div class="popup-backdrop" (click)="onBackdropClick($event)">
     <div class="popup popup-edit" role="dialog" aria-labelledby="edit-user-title">
       <h2 id="edit-user-title" class="popup-title">Edit User</h2>
+
+      @if (editError()) {
+        <div class="error-message" role="alert">
+          {{ editError() }}
+        </div>
+      }
+
       <div class="form-group">
-        <label for="edit-name">Name</label>
-        <input id="edit-name" type="text" [(ngModel)]="editName" class="input" placeholder="Full name" />
+        <label for="edit-name">Name <span class="required">*</span></label>
+        <input id="edit-name" type="text" [(ngModel)]="editName" class="input" placeholder="Full name" required />
       </div>
       <div class="form-group">
         <label for="edit-email">Email</label>

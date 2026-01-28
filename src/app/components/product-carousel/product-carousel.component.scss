@@ -1,92 +1,116 @@
+/* Carousel: responsive design for mobile, tablet, laptop, desktop */
 .carousel {
-  position: relative;
-  width: 100%;
+  @apply relative w-full overflow-hidden;
   height: 100vh;
   min-height: 400px;
-  overflow: hidden;
+
+  @media (max-width: 639px) {
+    height: 60vh;
+    min-height: 300px;
+  }
+
+  @media (min-width: 640px) {
+    height: 70vh;
+    min-height: 400px;
+  }
+
+  @media (min-width: 1024px) {
+    height: 100vh;
+    min-height: 500px;
+  }
+
+  @media (min-width: 1440px) {
+    height: 100vh;
+    min-height: 600px;
+  }
 }
 
 .carousel-track {
-  position: relative;
-  width: 100%;
-  height: 100%;
+  @apply relative w-full h-full;
 }
 
 .slide {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  @apply absolute top-0 left-0 w-full h-full flex items-center justify-center;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   opacity: 0;
   transition: opacity 0.6s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
   &.active {
-    opacity: 1;
-    z-index: 1;
+    @apply opacity-100 z-[1];
   }
 
   &::before {
     content: '';
-    position: absolute;
-    inset: 0;
+    @apply absolute inset-0 pointer-events-none;
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5));
-    pointer-events: none;
   }
 }
 
 .slide-content {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  color: #fff;
+  @apply relative z-[2] text-center text-white px-4;
+
+  @media (min-width: 640px) {
+    padding: 0 32px;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 0 48px;
+  }
+
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 .slide-title {
-  margin: 0 0 8px 0;
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 600;
+  @apply m-0 mb-2 font-semibold;
+  font-size: clamp(1.5rem, 4vw, 3.5rem);
   letter-spacing: -0.02em;
+
+  @media (min-width: 1024px) {
+    font-size: clamp(2rem, 5vw, 4rem);
+  }
 }
 
 .slide-price {
-  margin: 0;
-  font-size: clamp(1.25rem, 3vw, 2rem);
-  font-weight: 500;
+  @apply m-0 font-medium;
+  font-size: clamp(1rem, 2.5vw, 2rem);
+
+  @media (min-width: 1024px) {
+    font-size: clamp(1.25rem, 3vw, 2.5rem);
+  }
 }
 
 .carousel-dots {
-  position: absolute;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-  display: flex;
-  gap: 10px;
+  @apply absolute bottom-4 left-1/2 -translate-x-1/2 z-10 flex gap-2.5;
+
+  @media (min-width: 640px) {
+    bottom: 20px;
+  }
+
+  @media (min-width: 1024px) {
+    bottom: 24px;
+    gap: 10px;
+  }
 }
 
 .dot {
+  @apply rounded-full border-0 cursor-pointer transition-all;
   width: 8px;
   height: 8px;
-  border-radius: 50%;
-  border: none;
   background: rgba(255, 255, 255, 0.5);
-  cursor: pointer;
-  transition: background 0.2s, transform 0.2s;
+
+  @media (min-width: 1024px) {
+    width: 10px;
+    height: 10px;
+  }
 
   &:hover {
     background: rgba(255, 255, 255, 0.8);
   }
 
   &.active {
-    background: #fff;
+    @apply bg-white;
     transform: scale(1.2);
   }
 }

@@ -15,6 +15,7 @@
   <app-buy-popup
     [product]="selectedProduct"
     [visible]="buyPopupVisible"
+    [purchaseError]="purchaseError()"
     (visibleChange)="onBuyPopupVisibleChange($event)"
     (purchaseComplete)="onPurchaseComplete($event)"
   />

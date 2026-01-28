@@ -17,12 +17,14 @@ const PAGE_SIZE = 5;
 export class ManageUsersComponent {
   private store = inject(StoreService);
   users = this.store.users;
+  storeError = this.store.error;
   currentPage = signal(1);
   pageSize = PAGE_SIZE;
   editPopupVisible = signal(false);
   editingUser: User | null = null;
   editName = '';
   editItemsPurchased = 0;
+  editError = signal<string | null>(null);
 
   totalPages = computed(() => Math.max(1, Math.ceil(this.users().length / this.pageSize)));
   paginatedUsers = computed(() => {
@@ -48,25 +50,53 @@ export class ManageUsersComponent {
     this.editName = user.name;
     this.editItemsPurchased = user.itemsPurchased;
     this.editPopupVisible.set(true);
+    this.editError.set(null);
   }
 
   closeEdit(): void {
     this.editPopupVisible.set(false);
     this.editingUser = null;
+    this.editError.set(null);
   }
 
   /** Save edited name and items purchased to StoreService (persists to localStorage) */
   saveEdit(): void {
     if (!this.editingUser) return;
+    
+    this.editError.set(null);
+    
     const nameTrim = this.editName.trim();
-    if (!nameTrim) return;
+    if (!nameTrim) {
+      this.editError.set('Name is required');
+      return;
+    }
+
     const items = Math.max(0, Math.floor(Number(this.editItemsPurchased)));
-    this.store.updateUser(this.editingUser.id, { name: nameTrim, itemsPurchased: items });
-    this.closeEdit();
+    if (isNaN(items)) {
+      this.editError.set('Items purchased must be a valid number');
+      return;
+    }
+
+    const result = this.store.updateUser(this.editingUser.id, {
+      name: nameTrim,
+      itemsPurchased: items
+    });
+
+    if (!result.success) {
+      this.editError.set(result.error);
+      console.error('Update failed:', result.error);
+    } else {
+      this.closeEdit();
+    }
   }
 
   /** Close popup when clicking backdrop */
   onBackdropClick(e: MouseEvent): void {
     if ((e.target as HTMLElement).classList.contains('popup-backdrop')) this.closeEdit();
+  }
+
+  /** Clear store error */
+  clearStoreError(): void {
+    this.store.clearError();
   }
 }

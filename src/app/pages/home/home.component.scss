@@ -1,34 +1,68 @@
+/* Home: responsive design for mobile, tablet, laptop, desktop */
+@use '../../../styles/mixins' as *;
+
 .home {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
+  @apply min-h-full flex flex-col;
 }
 
 .products-section {
-  padding: 60px 22px 80px;
-  max-width: 1200px;
-  margin: 0 auto;
-  width: 100%;
+  @apply py-10 px-4 pb-16 max-w-[1200px] mx-auto w-full;
+
+  @media (min-width: 640px) {
+    @apply py-14 px-6;
+    padding-bottom: 72px;
+  }
+
+  @media (min-width: 1024px) {
+    @apply py-[60px] px-[22px] pb-20;
+  }
+
+  @media (min-width: 1440px) {
+    @apply py-20 px-8 pb-24;
+    max-width: 1400px;
+  }
 }
 
 .section-title {
-  margin: 0 0 32px 0;
-  font-size: 2rem;
-  font-weight: 600;
-  color: #1d1d1f;
-  text-align: center;
-  letter-spacing: -0.02em;
+  @include section-title;
+  font-size: 1.5rem;
+  margin-bottom: 24px;
+
+  @media (min-width: 640px) {
+    font-size: 1.75rem;
+    margin-bottom: 28px;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 2rem;
+    margin-bottom: 32px;
+  }
+
+  @media (min-width: 1440px) {
+    font-size: 2.25rem;
+    margin-bottom: 40px;
+  }
 }
 
 .products-list {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+  @apply flex flex-col gap-4;
+
+  @media (min-width: 640px) {
+    gap: 20px;
+  }
+
+  @media (min-width: 1024px) {
+    gap: 24px;
+  }
+
+  @media (min-width: 1440px) {
+    gap: 32px;
+  }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 640px) {
   .products-list {
-    display: grid;
+    @apply grid;
     grid-template-columns: repeat(2, 1fr);
   }
 }
@@ -36,5 +70,11 @@
 @media (min-width: 1024px) {
   .products-list {
     grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1440px) {
+  .products-list {
+    grid-template-columns: repeat(4, 1fr);
   }
 }

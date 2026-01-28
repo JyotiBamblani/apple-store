@@ -3,6 +3,14 @@
     @if (isFormVisible && product) {
       <div class="popup popup-form" role="dialog" aria-labelledby="buy-form-title">
         <h2 id="buy-form-title" class="popup-title">Buy {{ product.name }}</h2>
+
+        @if (purchaseError) {
+          <div class="error-message" role="alert">
+            <span class="error-icon">⚠️</span>
+            {{ purchaseError }}
+          </div>
+        }
+
         <form (ngSubmit)="onSubmit()" class="form">
           <div class="form-group">
             <label for="buy-name">Name</label>

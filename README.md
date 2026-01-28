@@ -14,6 +14,7 @@ A simplified Apple-like product website with purchase flow and an admin dashboar
 
 - Angular 19 (standalone components, signals, control flow)
 - TypeScript (strict typing)
+- **Tailwind CSS** – utility-first CSS framework; all SCSS files use `theme()` function and `@apply` directives
 - **date-fns** – date formatting (e.g. Billing dates)
 - **ng2-charts** + **Chart.js** – trending products bar chart
 - Plain JavaScript utility: `src/app/utils/formatCurrency.js` (JS fundamentals; app uses TypeScript equivalent in `formatCurrency.ts` for strict typing)
@@ -42,12 +43,32 @@ src/app/
 ├── services/
 │   └── store.service.ts   # State + local storage (users, invoices)
 ├── models/               # TypeScript interfaces
+│   └── store-result.model.ts  # StoreResult types for error handling
 ├── data/                 # Seed data (users, products, invoices)
 ├── utils/                # Utilities
 │   ├── formatCurrency.js # Plain JavaScript utility
-│   └── formatCurrency.ts # TypeScript wrapper for app
+│   ├── formatCurrency.ts # TypeScript wrapper for app
+│   └── validation.ts     # Plain JavaScript validation functions
 └── app.routes.ts
 ```
+
+**Tailwind CSS configuration:**
+- `tailwind.config.js` – theme colors, spacing, shadows (primary, surface, text-primary, etc.)
+- All SCSS files use Tailwind's `theme()` function (e.g. `color: theme('colors.primary')`) and `@apply` directives
+- Global styles: `src/styles.scss` includes `@tailwind base/components/utilities`
+- Angular's build system processes Tailwind automatically
+
+**Reusable SCSS mixins:**
+- `src/styles/_mixins.scss` – centralized mixins for common patterns:
+  - **Popup/Modal**: `@include popup-backdrop`, `@include popup`, `@include popup-title`
+  - **Forms**: `@include form-group`, `@include input`, `@include form-actions`
+  - **Buttons**: `@include btn-primary`, `@include btn-secondary`, `@include btn-base`
+  - **Tables**: `@include table-wrap`, `@include data-table`
+  - **Pagination**: `@include pagination`, `@include btn-pagination`, `@include pagination-info`
+  - **Status badges**: `@include status-badge`, `@include status-paid/pending/shipped/refunded`
+  - **Layout**: `@include page-title`, `@include section-title`, `@include card`
+- All component SCSS files import mixins: `@use '../../../styles/mixins' as *;`
+- Reduces code duplication and ensures consistent styling across components
 
 ## Setup
 
@@ -62,11 +83,27 @@ src/app/
 # Install dependencies (use --legacy-peer-deps if you hit peer dependency conflicts)
 npm install
 
-# Start dev server
+# Start dev server (default)
 npm start
+
+# Start with a specific environment config
+npm run start:dev   # dev config (environment.dev.ts)
+npm run start:qa    # QA config (environment.qa.ts)
+npm run start:feature  # feature/staging config (environment.feature.ts)
 ```
 
-Open [http://localhost:4200](http://localhost:4200).
+Open [http://localhost:4200](http://localhost:4200). When not in production, the footer shows the current environment name (dev, qa, feature).
+
+### Environment configs (dev, qa, feature)
+
+| Config   | Serve command        | Build command       | Environment file              |
+|----------|----------------------|---------------------|-------------------------------|
+| **dev**  | `npm run start:dev`   | `npm run build:dev` | `src/environments/environment.dev.ts`   |
+| **qa**   | `npm run start:qa`   | `npm run build:qa`  | `src/environments/environment.qa.ts`   |
+| **feature** | `npm run start:feature` | `npm run build:feature` | `src/environments/environment.feature.ts` |
+| **production** | `ng serve --configuration production` | `npm run build:prod` | `environment.prod.ts` |
+
+Each environment file exports `production`, `name`, and `apiUrl`; adjust `apiUrl` per env when you add a backend.
 
 ### Build
 
@@ -93,7 +130,15 @@ Output is in `dist/`. For production build with SSR you may need to resolve peer
 
 ## State management
 
-- **StoreService** (`services/store.service.ts`): single source of truth for users and invoices. Reads/writes **local storage** keys `apple-store-users` and `apple-store-invoices`. Seed data is loaded when keys are missing. Methods: `users`, `invoices` (readonly signals), `updateUser`, `addInvoice`, `recordPurchase` (purchase flow updates invoices and user “items purchased”).
+- **StoreService** (`services/store.service.ts`): single source of truth for users and invoices. Reads/writes **local storage** keys `apple-store-users` and `apple-store-invoices`. Seed data is loaded when keys are missing. Methods: `users`, `invoices` (readonly signals), `updateUser`, `addInvoice`, `recordPurchase` (purchase flow updates invoices and user "items purchased").
+
+**Error handling and validation:**
+- **Validation utilities** (`utils/validation.ts`): Plain JavaScript validation functions for User, Invoice, Product, and arrays. Validates email format, required fields, data types, and business rules (e.g., duplicate emails, valid statuses).
+- **StoreResult types** (`models/store-result.model.ts`): Type-safe result types (`StoreResult<T>`) for all store operations. Methods return `StoreResult` with `success: true/false` and either `data` or `error` with optional `code`.
+- **Error signals**: `StoreService.error` signal exposes current error state. Components can subscribe and display user-friendly error messages.
+- **Comprehensive validation**: All store methods validate input data before processing. Invalid data returns error results without modifying state.
+- **Transaction safety**: `recordPurchase` uses rollback logic - if user creation fails after invoice creation, the invoice is rolled back.
+- **Error display**: Components show error banners/messages for failed operations (e.g., purchase failures, user update errors).
 
 ## Version control (Git)
 
@@ -123,7 +168,7 @@ git push origin feature/users
 You can replace local storage with a backend (e.g. Node.js/Express, NestJS) by:
 
 - Adding API endpoints for users and invoices (CRUD).
-- Replacing `StoreService`’s local storage calls with `HttpClient` requests to that API.
+- Replacing `StoreService`'s local storage calls with `HttpClient` requests to that API.
 - Keeping the same interfaces and component contracts so the Angular app stays largely unchanged.
 
 ---

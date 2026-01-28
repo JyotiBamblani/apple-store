@@ -13,6 +13,7 @@ import { Product } from '../../models/product.model';
 export class BuyPopupComponent {
   @Input() product: Product | null = null;
   @Input() visible = false;
+  @Input() purchaseError: string | null = null;
   @Output() visibleChange = new EventEmitter<boolean>();
   @Output() purchaseComplete = new EventEmitter<{ name: string; email: string; product: Product }>();
 

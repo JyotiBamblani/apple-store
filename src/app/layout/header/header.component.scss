@@ -1,11 +1,7 @@
+/* Header: responsive design for mobile, tablet, laptop, desktop */
 .header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 22px;
+  @apply sticky top-0 z-[100] flex items-center justify-between;
+  padding: 0 16px;
   height: 44px;
   background: rgba(251, 251, 253, 0.8);
   backdrop-filter: saturate(180%) blur(20px);
@@ -14,14 +10,23 @@
   font-size: 12px;
   font-weight: 400;
   letter-spacing: -0.01em;
+
+  @media (min-width: 640px) {
+    padding: 0 20px;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 0 22px;
+  }
+
+  @media (min-width: 1440px) {
+    padding: 0 44px;
+  }
 }
 
 .logo {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: #1d1d1f;
-  text-decoration: none;
+  @apply flex items-center gap-1.5 no-underline;
+  color: theme('colors.text-primary');
   transition: opacity 0.2s;
 
   &:hover {
@@ -29,25 +34,47 @@
   }
 
   span {
-    font-weight: 600;
+    @apply font-semibold;
   }
 }
 
 .nav {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  @apply flex items-center gap-1;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (min-width: 640px) {
+    gap: 8px;
+  }
+
+  @media (min-width: 1024px) {
+    gap: 12px;
+  }
 }
 
 .nav-link {
-  color: #1d1d1f;
-  text-decoration: none;
-  padding: 8px 12px;
-  border-radius: 980px;
-  transition: background 0.2s, color 0.2s;
+  @apply no-underline rounded-full transition-colors whitespace-nowrap;
+  color: theme('colors.text-primary');
+  padding: 8px 10px;
+  font-size: 11px;
+
+  @media (min-width: 640px) {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 8px 14px;
+  }
 
   &:hover {
-    background: rgba(0, 0, 0, 0.04);
-    color: #1d1d1f;
+    @apply bg-black/5;
+    color: theme('colors.text-primary');
   }
 }

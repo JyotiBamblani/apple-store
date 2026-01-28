@@ -1,0 +1,203 @@
+/* Reusable SCSS mixins using Tailwind theme() */
+
+/* Responsive Breakpoints (consistent across all components):
+ * Mobile: < 640px (base styles)
+ * Tablet: 640px - 1023px (min-width: 640px)
+ * Laptop: 1024px - 1439px (min-width: 1024px)
+ * Desktop: 1440px+ (min-width: 1440px)
+ */
+
+/* Popup backdrop overlay */
+@mixin popup-backdrop {
+  @apply fixed inset-0 z-[1000] flex items-center justify-center p-5;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* Popup container */
+@mixin popup {
+  @apply rounded-2xl max-w-[420px] w-full;
+  background: theme('colors.surface');
+  padding: 28px 32px;
+  box-shadow: theme('boxShadow.lg');
+}
+
+/* Popup title */
+@mixin popup-title {
+  @apply m-0 mb-5 text-2xl font-semibold;
+  color: theme('colors.text-primary');
+}
+
+/* Page title */
+@mixin page-title {
+  @apply m-0 mb-6 text-[1.75rem] font-semibold;
+  color: theme('colors.text-primary');
+  letter-spacing: -0.02em;
+}
+
+/* Form group */
+@mixin form-group {
+  @apply mb-4;
+
+  label {
+    @apply block mb-1.5 text-sm font-medium;
+    color: theme('colors.text-primary');
+  }
+}
+
+/* Form input */
+@mixin input {
+  @apply w-full px-3.5 py-2.5 text-base border rounded-lg box-border transition-colors;
+  border-color: #d2d2d7;
+
+  &:focus {
+    @apply outline-none;
+    border-color: theme('colors.primary');
+  }
+
+  &.input-readonly {
+    background: theme('colors.surface-alt');
+    color: theme('colors.text-muted');
+    @apply cursor-not-allowed;
+  }
+}
+
+/* Form actions container */
+@mixin form-actions {
+  @apply flex gap-3 mt-6 justify-end;
+}
+
+/* Primary button */
+@mixin btn-primary {
+  @apply px-5 py-2.5 text-[0.9375rem] font-medium rounded-full cursor-pointer border-0 transition-colors text-white;
+  background: theme('colors.primary');
+
+  &:hover {
+    background: theme('colors.primary-hover');
+  }
+}
+
+/* Secondary button */
+@mixin btn-secondary {
+  @apply px-5 py-2.5 text-[0.9375rem] font-medium rounded-full cursor-pointer border-0 transition-colors;
+  background: theme('colors.surface-alt');
+  color: theme('colors.text-primary');
+
+  &:hover {
+    background: #e8e8ed;
+  }
+}
+
+/* Base button (for extending) */
+@mixin btn-base {
+  @apply px-5 py-2.5 text-[0.9375rem] font-medium rounded-full cursor-pointer border-0 transition-colors;
+}
+
+/* Table wrapper */
+@mixin table-wrap {
+  @apply overflow-x-auto;
+  border-radius: theme('borderRadius.DEFAULT');
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: theme('colors.surface');
+  box-shadow: theme('boxShadow.DEFAULT');
+}
+
+/* Data table */
+@mixin data-table {
+  @apply w-full;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+
+  th,
+  td {
+    @apply px-4 py-3.5 text-left;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  th {
+    @apply font-semibold;
+    color: theme('colors.text-primary');
+    background: theme('colors.surface-alt');
+  }
+
+  tbody tr:last-child td {
+    @apply border-b-0;
+  }
+
+  tbody tr:hover {
+    @apply bg-black/[0.02];
+  }
+}
+
+/* Pagination container */
+@mixin pagination {
+  @apply flex items-center gap-4 mt-6 flex-wrap;
+}
+
+/* Pagination button */
+@mixin btn-pagination {
+  @apply px-4 py-2 text-[0.9375rem] font-medium border rounded-lg cursor-pointer transition-colors;
+  color: theme('colors.primary');
+  background: theme('colors.surface');
+  border-color: #d2d2d7;
+  border-radius: theme('borderRadius.sm');
+
+  &:hover:not(:disabled) {
+    background: theme('colors.surface-alt');
+    border-color: theme('colors.primary');
+  }
+
+  &:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+}
+
+/* Pagination info text */
+@mixin pagination-info {
+  @apply text-[0.9375rem];
+  color: theme('colors.text-muted');
+}
+
+/* Status badge base */
+@mixin status-badge {
+  @apply inline-block px-2.5 py-1 text-[0.8125rem] font-medium rounded-full;
+}
+
+/* Status badge variants */
+@mixin status-paid {
+  background: rgba(0, 128, 0, 0.12);
+  color: theme('colors.success');
+}
+
+@mixin status-pending {
+  background: rgba(255, 149, 0, 0.15);
+  color: theme('colors.warning');
+}
+
+@mixin status-shipped {
+  background: rgba(0, 113, 227, 0.12);
+  color: theme('colors.primary');
+}
+
+@mixin status-refunded {
+  background: rgba(110, 110, 115, 0.2);
+  color: theme('colors.text-muted');
+}
+
+/* Section title */
+@mixin section-title {
+  @apply m-0 mb-8 text-3xl font-semibold text-center;
+  color: theme('colors.text-primary');
+  letter-spacing: -0.02em;
+}
+
+/* Card base */
+@mixin card {
+  background: theme('colors.surface');
+  border-radius: theme('borderRadius.DEFAULT');
+  box-shadow: theme('boxShadow.DEFAULT');
+  transition: box-shadow 0.2s;
+
+  &:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  }
+}
