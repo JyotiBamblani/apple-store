@@ -24,6 +24,10 @@ import {
 const USERS_KEY = 'apple-store-users';
 const INVOICES_KEY = 'apple-store-invoices';
 
+/** Detect whether we are running in a browser (localStorage is available). */
+const IS_BROWSER: boolean =
+  typeof window !== 'undefined' && typeof localStorage !== 'undefined';
+
 /**
  * Central state and persistence for users and invoices.
  * All user and purchase data is stored in localStorage and exposed via signals.
@@ -47,6 +51,11 @@ export class StoreService {
    * Includes validation and error handling.
    */
   private loadUsers(): User[] {
+    // On the server (SSR) localStorage is not available; fall back to seed data.
+    if (!IS_BROWSER) {
+      return [...USERS];
+    }
+
     try {
       const raw = localStorage.getItem(USERS_KEY);
       if (raw) {
@@ -75,6 +84,11 @@ export class StoreService {
    * Includes validation and error handling.
    */
   private loadInvoices(): Invoice[] {
+    // On the server (SSR) localStorage is not available; fall back to seed data.
+    if (!IS_BROWSER) {
+      return [...INVOICES];
+    }
+
     try {
       const raw = localStorage.getItem(INVOICES_KEY);
       if (raw) {
@@ -104,6 +118,23 @@ export class StoreService {
    * @returns StoreResult indicating success or failure
    */
   private persistUsers(list: User[]): StoreResult<void> {
+    // When not in a browser (e.g. during SSR), skip persistence but keep in-memory state.
+    if (!IS_BROWSER) {
+      // We still validate to keep the same guarantees.
+      const validation = validateUsersArray(list);
+      if (!validation.valid) {
+        const error = createError(
+          validation.error || 'Invalid users data',
+          StoreErrorCode.VALIDATION_ERROR
+        );
+        this.errorSignal.set(error.error);
+        return error;
+      }
+
+      this.errorSignal.set(null);
+      return createSuccess(undefined);
+    }
+
     try {
       // Validate before persisting
       const validation = validateUsersArray(list);
@@ -131,6 +162,22 @@ export class StoreService {
    * @returns StoreResult indicating success or failure
    */
   private persistInvoices(list: Invoice[]): StoreResult<void> {
+    // When not in a browser (e.g. during SSR), skip persistence but keep in-memory state.
+    if (!IS_BROWSER) {
+      const validation = validateInvoicesArray(list);
+      if (!validation.valid) {
+        const error = createError(
+          validation.error || 'Invalid invoices data',
+          StoreErrorCode.VALIDATION_ERROR
+        );
+        this.errorSignal.set(error.error);
+        return error;
+      }
+
+      this.errorSignal.set(null);
+      return createSuccess(undefined);
+    }
+
     try {
       // Validate before persisting
       const validation = validateInvoicesArray(list);
