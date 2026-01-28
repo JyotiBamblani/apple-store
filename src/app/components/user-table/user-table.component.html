@@ -1,0 +1,33 @@
+<div class="table-wrap">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Items Purchased</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (user of users; track user.id) {
+        <tr>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.itemsPurchased }}</td>
+          <td>
+            <button type="button" class="btn-edit" (click)="onEdit(user)">Edit</button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+<div class="pagination">
+  <button type="button" class="btn-pagination" [disabled]="!canGoPrevious" (click)="previousPage.emit()">
+    Previous
+  </button>
+  <span class="pagination-info">Page {{ currentPage }} of {{ totalPages }}</span>
+  <button type="button" class="btn-pagination" [disabled]="!canGoNext" (click)="nextPage.emit()">
+    Next
+  </button>
+</div>

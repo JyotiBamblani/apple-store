@@ -1,1 +1,27 @@
-<p>sponsor-section works!</p>
+<section class="sponsors" id="sponsors">
+  <h2 class="section-title">Partners of Apple Inc.</h2>
+  <div class="sponsors-grid">
+    @for (sponsor of sponsors; track sponsor.name) {
+      <div class="sponsor-card sponsor-card-h">
+        <div class="sponsor-logo">
+          <img [src]="sponsor.logo" [alt]="sponsor.name" loading="lazy" />
+        </div>
+        <div class="sponsor-info">
+          <h3 class="sponsor-name">{{ sponsor.name }}</h3>
+          <p class="sponsor-tagline">{{ sponsor.tagline }}</p>
+        </div>
+      </div>
+    }
+  </div>
+  <div class="sponsors-row">
+    @for (sponsor of sponsors; track sponsor.name) {
+      <div class="sponsor-card sponsor-card-v">
+        <div class="sponsor-logo">
+          <img [src]="sponsor.logo" [alt]="sponsor.name" loading="lazy" />
+        </div>
+        <h3 class="sponsor-name">{{ sponsor.name }}</h3>
+        <p class="sponsor-tagline">{{ sponsor.tagline }}</p>
+      </div>
+    }
+  </div>
+</section>

@@ -1,1 +1,29 @@
-<p>product-carousel works!</p>
+<section class="carousel" id="hero">
+  @if (products.length) {
+    <div class="carousel-track">
+      @for (product of products; track product.id; let i = $index) {
+        <div
+          class="slide"
+          [class.active]="i === currentIndex"
+          [style.backgroundImage]="'url(' + product.image + ')'"
+        >
+          <div class="slide-content">
+            <h2 class="slide-title">{{ product.name }}</h2>
+            <p class="slide-price">{{ product.price | currency:'USD':'symbol':'1.0-0' }}</p>
+          </div>
+        </div>
+      }
+    </div>
+    <div class="carousel-dots">
+      @for (product of products; track product.id; let i = $index) {
+        <button
+          type="button"
+          class="dot"
+          [class.active]="i === currentIndex"
+          [attr.aria-label]="'Go to slide ' + (i + 1)"
+          (click)="goTo(i)"
+        ></button>
+      }
+    </div>
+  }
+</section>

@@ -1,1 +1,44 @@
-<p>billing works!</p>
+<div class="billing-page">
+  <h1 class="page-title">Billing</h1>
+
+  <section class="trending-section">
+    <h2 class="section-heading">Trending products</h2>
+    <p class="section-desc">Most purchased items (based on invoice count).</p>
+    @if (trendingProducts().length) {
+      <div class="trending-chart-wrap">
+        <canvas baseChart
+          type="bar"
+          [data]="chartData()"
+          [options]="chartOptions"
+        ></canvas>
+      </div>
+      <div class="trending-list">
+        @for (item of trendingProducts(); track item.productName; let i = $index) {
+          <div class="trending-card">
+            <span class="trending-rank">{{ i + 1 }}</span>
+            <div class="trending-info">
+              <span class="trending-name">{{ item.productName }}</span>
+              <span class="trending-count">{{ item.count }} {{ item.count === 1 ? 'purchase' : 'purchases' }}</span>
+            </div>
+          </div>
+        }
+      </div>
+    } @else {
+      <p class="empty-msg">No purchase data yet.</p>
+    }
+  </section>
+
+  <section class="invoices-section">
+    <h2 class="section-heading">Invoices</h2>
+    <app-invoice-list
+      [invoices]="paginatedInvoices()"
+      [currentPage]="currentPage()"
+      [totalPages]="totalPages()"
+      [canGoPrevious]="canGoPrevious()"
+      [canGoNext]="canGoNext()"
+      [formatDate]="formatDate"
+      (previousPage)="previousPage()"
+      (nextPage)="nextPage()"
+    />
+  </section>
+</div>

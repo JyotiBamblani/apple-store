@@ -1,1 +1,47 @@
-<p>buy-popup works!</p>
+@if (visible) {
+  <div class="popup-backdrop" (click)="onBackdropClick($event)">
+    @if (isFormVisible && product) {
+      <div class="popup popup-form" role="dialog" aria-labelledby="buy-form-title">
+        <h2 id="buy-form-title" class="popup-title">Buy {{ product.name }}</h2>
+        <form (ngSubmit)="onSubmit()" class="form">
+          <div class="form-group">
+            <label for="buy-name">Name</label>
+            <input id="buy-name" type="text" [(ngModel)]="name" name="name" class="input" placeholder="Your name" />
+          </div>
+          <div class="form-group">
+            <label for="buy-email">Email <span class="required">*</span></label>
+            <input
+              id="buy-email"
+              type="email"
+              [(ngModel)]="email"
+              name="email"
+              class="input"
+              placeholder="your@email.com"
+              required
+            />
+            @if (emailError()) {
+              <p class="error">{{ emailError() }}</p>
+            }
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" (click)="close()">Cancel</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    }
+    @if (isSuccessVisible && purchasedProduct) {
+      <div class="popup popup-success" role="dialog" aria-labelledby="success-title">
+        <h2 id="success-title" class="popup-title">Purchase successful</h2>
+        <div class="success-details">
+          <p><strong>Product:</strong> {{ purchasedProduct.name }}</p>
+          <p><strong>Price:</strong> {{ purchasedProduct.price | currency:'USD':'symbol':'1.0-0' }}</p>
+          <p><strong>Customer:</strong> {{ purchaserName }}</p>
+          <p><strong>Email:</strong> {{ purchaserEmail }}</p>
+        </div>
+        <p class="success-note">This popup will close automatically in 10 seconds.</p>
+        <button type="button" class="btn btn-primary" (click)="onSuccessOkay()">Okay</button>
+      </div>
+    }
+  </div>
+}

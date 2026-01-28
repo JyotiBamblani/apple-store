@@ -1,1 +1,35 @@
-/* You can add global styles to this file, and also import other style files */
+/* ========== Global theme (Apple-inspired) ========== */
+:root {
+  --primary: #0071e3;
+  --primary-hover: #0077ed;
+  --surface: #ffffff;
+  --surface-alt: #f5f5f7;
+  --text-primary: #1d1d1f;
+  --text-muted: #6e6e73;
+  --border-color: rgba(0, 0, 0, 0.08);
+  --success: #0a6b0a;
+  --warning: #c93400;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--text-primary);
+  background: var(--surface);
+}

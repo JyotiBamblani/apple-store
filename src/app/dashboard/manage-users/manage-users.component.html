@@ -1,1 +1,45 @@
-<p>manage-users works!</p>
+<div class="users-page">
+  <h1 class="page-title">Users</h1>
+  <app-user-table
+    [users]="paginatedUsers()"
+    [currentPage]="currentPage()"
+    [totalPages]="totalPages()"
+    [canGoPrevious]="canGoPrevious()"
+    [canGoNext]="canGoNext()"
+    (editUser)="openEdit($event)"
+    (previousPage)="previousPage()"
+    (nextPage)="nextPage()"
+  />
+</div>
+
+@if (editPopupVisible() && editingUser) {
+  <div class="popup-backdrop" (click)="onBackdropClick($event)">
+    <div class="popup popup-edit" role="dialog" aria-labelledby="edit-user-title">
+      <h2 id="edit-user-title" class="popup-title">Edit User</h2>
+      <div class="form-group">
+        <label for="edit-name">Name</label>
+        <input id="edit-name" type="text" [(ngModel)]="editName" class="input" placeholder="Full name" />
+      </div>
+      <div class="form-group">
+        <label for="edit-email">Email</label>
+        <input
+          id="edit-email"
+          type="text"
+          [value]="editingUser.email"
+          class="input input-readonly"
+          readonly
+          aria-readonly="true"
+        />
+        <p class="field-hint">Email cannot be changed (unique key).</p>
+      </div>
+      <div class="form-group">
+        <label for="edit-items">Items Purchased</label>
+        <input id="edit-items" type="number" [(ngModel)]="editItemsPurchased" min="0" step="1" class="input" />
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="closeEdit()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="saveEdit()">Save</button>
+      </div>
+    </div>
+  </div>
+}

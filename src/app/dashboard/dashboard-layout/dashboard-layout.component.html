@@ -1,0 +1,12 @@
+<div class="dashboard">
+  <aside class="sidebar">
+    <nav class="sidebar-nav">
+      <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="sidebar-link">Dashboard</a>
+      <a routerLink="/dashboard/users" routerLinkActive="active" class="sidebar-link">Users</a>
+      <a routerLink="/dashboard/billing" routerLinkActive="active" class="sidebar-link">Billing</a>
+    </nav>
+  </aside>
+  <main class="dashboard-main">
+    <router-outlet />
+  </main>
+</div>

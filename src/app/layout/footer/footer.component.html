@@ -1,1 +1,16 @@
-<p>footer works!</p>
+<footer class="footer" id="footer">
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a routerLink="/" fragment="hero" class="footer-link">Home</a>
+      <a routerLink="/" fragment="products" class="footer-link">Products</a>
+      <a routerLink="/" fragment="sponsors" class="footer-link">Partners</a>
+      <a routerLink="/dashboard/users" class="footer-link">Manage Users</a>
+      <a routerLink="/dashboard/billing" class="footer-link">Billing</a>
+    </div>
+    <div class="footer-company">
+      <p class="company-name">Apple Inc.</p>
+      <p class="company-details">One Apple Park Way, Cupertino, CA 95014, U.S.A.</p>
+      <p class="company-details">Copyright &copy; {{ currentYear }} Apple Inc. All rights reserved.</p>
+    </div>
+  </div>
+</footer>

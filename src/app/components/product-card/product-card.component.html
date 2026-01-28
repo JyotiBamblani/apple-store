@@ -1,1 +1,13 @@
-<p>product-card works!</p>
+<article class="card">
+  <div class="card-image">
+    <img [src]="product.image" [alt]="product.name" loading="lazy" />
+  </div>
+  <div class="card-details">
+    <h3 class="card-title">{{ product.name }}</h3>
+    @if (product.description) {
+      <p class="card-desc">{{ product.description }}</p>
+    }
+    <p class="card-price">{{ formatCurrency(product.price) }}</p>
+    <button type="button" class="btn-buy" (click)="onBuy()">Buy Now</button>
+  </div>
+</article>

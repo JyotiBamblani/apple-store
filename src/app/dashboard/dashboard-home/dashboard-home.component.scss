@@ -1,0 +1,40 @@
+.dashboard-home {
+  max-width: 600px;
+}
+
+.page-title {
+  margin: 0 0 12px 0;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #1d1d1f;
+  letter-spacing: -0.02em;
+}
+
+.intro {
+  margin: 0 0 24px 0;
+  font-size: 1rem;
+  color: #6e6e73;
+  line-height: 1.5;
+}
+
+.links {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.card-link {
+  display: inline-block;
+  padding: 14px 24px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #0071e3;
+  background: #f5f5f7;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: background 0.2s;
+
+  &:hover {
+    background: rgba(0, 113, 227, 0.08);
+  }
+}

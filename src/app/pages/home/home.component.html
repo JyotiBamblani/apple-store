@@ -1,1 +1,21 @@
-<p>home works!</p>
+<main class="home">
+  <app-product-carousel [products]="products" />
+  <section class="products-section" id="products">
+    <h2 class="section-title">Shop Apple Products</h2>
+    <div class="products-list">
+      @for (product of products; track product.id) {
+        <app-product-card
+          [product]="product"
+          (buyClick)="openBuyPopup($event)"
+        />
+      }
+    </div>
+  </section>
+  <app-sponsor-section />
+  <app-buy-popup
+    [product]="selectedProduct"
+    [visible]="buyPopupVisible"
+    (visibleChange)="onBuyPopupVisibleChange($event)"
+    (purchaseComplete)="onPurchaseComplete($event)"
+  />
+</main>
